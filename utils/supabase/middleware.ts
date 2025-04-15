@@ -30,22 +30,40 @@ export const updateSession = async (request: NextRequest) => {
       },
     );
 
-    const { data: { user }, error } = await supabase.auth.getUser();
+    let user = null;
+
+    try {
+      const {
+        data: { user: currentUser },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.warn("Usuario no autenticado, puede ignorarse si es intencional:", error.message);
+      } else {
+        user = currentUser;
+      }
+    } catch (err) {
+      console.error("Excepción al intentar obtener usuario:", err);
+    }
 
     // Si no hay sesión, redirige al login
     if (
       (request.nextUrl.pathname.startsWith("/protected") ||
         request.nextUrl.pathname.startsWith("/dashboard")) &&
-      error
+      !user
     ) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
     // Si hay sesión y está en la raíz, redirige según el rol
-    if (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/sign-in" && user) {
+    if (
+      (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/sign-in") &&
+      user
+    ) {
       const roleId = user?.user_metadata?.roleId;
 
-      console.log(roleId) 
+      console.log(roleId);
 
       if (roleId === 1) {
         return NextResponse.redirect(new URL("/dashboard/admin", request.url));
@@ -59,72 +77,47 @@ export const updateSession = async (request: NextRequest) => {
         return NextResponse.redirect(new URL("/dashboard/aprobadorjefe", request.url));
       }
 
-      if (roleId === 4) {
-        return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
-      }
-
-      if (roleId === 5) {
-        return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
-      }
-
-      if (roleId === 6) {
+      if ([4, 5, 6].includes(roleId)) {
         return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
       }
 
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    // 🔒 RESTRICCIÓN para compradores
+    // 🔒 RESTRICCIÓN para rutas según rol
     if (user) {
       const roleId = user.user_metadata?.roleId;
+      const path = request.nextUrl.pathname;
 
       if (
         roleId === 1 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/admin")
+        path.startsWith("/dashboard") &&
+        !path.startsWith("/dashboard/admin")
       ) {
-        // comprador intenta acceder a ruta no permitida
         return NextResponse.redirect(new URL("/dashboard/admin", request.url));
       }
+
       if (
         roleId === 2 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/comprador")
+        path.startsWith("/dashboard") &&
+        !path.startsWith("/dashboard/comprador")
       ) {
-        // comprador intenta acceder a ruta no permitida
         return NextResponse.redirect(new URL("/dashboard/comprador", request.url));
       }
-      if(
+
+      if (
         roleId === 3 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/aprobadorjefe")
+        path.startsWith("/dashboard") &&
+        !path.startsWith("/dashboard/aprobadorjefe")
       ) {
-        // comprador intenta acceder a ruta no permitida
         return NextResponse.redirect(new URL("/dashboard/aprobadorjefe", request.url));
       }
 
-      if(
-        roleId === 4 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/financiero")
+      if (
+        [4, 5, 6].includes(roleId) &&
+        path.startsWith("/dashboard") &&
+        !path.startsWith("/dashboard/financiero")
       ) {
-        // comprador intenta acceder a ruta no permitida
-        return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
-      }
-      if(
-        roleId === 5 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/financiero")
-      ) {
-        // comprador intenta acceder a ruta no permitida
-        return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
-      }
-      if(
-        roleId === 6 &&
-        request.nextUrl.pathname.startsWith("/dashboard") &&
-        !request.nextUrl.pathname.startsWith("/dashboard/financiero")
-      ) {
-        // comprador intenta acceder a ruta no permitida
         return NextResponse.redirect(new URL("/dashboard/financiero", request.url));
       }
     }
