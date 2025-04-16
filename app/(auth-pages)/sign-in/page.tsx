@@ -53,7 +53,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
                 <Checkbox className="border-foreground" />
                 <p>Recordarme por 30 días</p>
               </div>
-              <a className="underline cursor-pointer" href="/forgot-password">¿Olvidaste tu contraseña?</a>
+              <a className="underline cursor-pointer" href="/forgot-password"></a>
             </div>
 
             <Button
