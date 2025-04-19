@@ -92,6 +92,7 @@ function RequestsList({allUrl} : {allUrl : string}) {
                     date={formatDateEs(req.created_at)}
                     description={req.comment}
                     url={req.image_url || "public/default.jpg"}
+                    status={req.status_id}
                     // Pass animation props to RequestCard if it supports them
                     animate={true}
                     delay={index * 0.1}

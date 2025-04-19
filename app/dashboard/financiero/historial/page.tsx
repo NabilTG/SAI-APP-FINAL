@@ -39,7 +39,7 @@ function History() {
                         <TableCell>{req.total_request}</TableCell>
                         <TableCell>{req.user.full_name}</TableCell>
                         <TableCell>Aprobador Jefe</TableCell>
-                        <TableCell>{req.status_id === 2 ? "Aprobado Jefe" : "Pendiente"}</TableCell>
+                        <TableCell>{req.status_id === 2 ? "Aprobado Jefe" : req.status_id === 3 ? "Aprobado Financiero" : "Pendiente"}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

@@ -2,10 +2,11 @@
 import { useRequests } from "@/context/RequestContext"
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { FaCheckCircle } from "react-icons/fa"
+
 import { HiDotsHorizontal } from "react-icons/hi"
 import { MdTimer } from "react-icons/md"
 import { motion, AnimatePresence } from "framer-motion"
+import { IoCheckmarkCircleSharp, IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 function RecentsRequestsList() {
   const { newRequests, getNewestRequests } = useRequests()
@@ -147,7 +148,7 @@ function RecentsRequestsList() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
                   >
-                    {req.status_id === 1 ? "Pendiente" : "Aprobado"}
+                    {req.status_id === 2 ? "Aprobado Jefe" : req.status_id === 3 ? "Aprobado Financiero" : "Pendiente"}
                   </motion.p>
                 </div>
 
@@ -167,21 +168,33 @@ function RecentsRequestsList() {
                           delay: 0.4,
                         }}
                       >
-                        <FaCheckCircle size={20} className="text-red-500" />
+                        <IoCheckmarkCircleSharp size={20} className="text-red-500" />
                       </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          delay: 0.4,
-                        }}
-                      >
-                        <MdTimer size={20} className="text-red-500" />
-                      </motion.div>
-                    )}
+                    ) : req.status_id === 3 ? (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            delay: 0.4,
+                          }}
+                        >
+                          <IoCheckmarkDoneCircleSharp size={20} className="text-red-500" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            delay: 0.4,
+                          }}
+                        >
+                          <MdTimer size={20} className="text-red-500" />
+                        </motion.div>
+                      )}
                   </motion.div>
                 </div>
               </motion.div>
