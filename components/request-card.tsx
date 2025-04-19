@@ -76,7 +76,7 @@ function RequestCard({ title, date, description, status, url, animate = false, d
 
         <div className="w-[200px] text-right text-[10px]">
           <motion.p className=" text-sm text-gray-400">
-            {status === 2 ? "Aprobado Jefe" : status === 3 ? "Aprobado Financiero" : "Pendiente"}
+            {status === 2 ? "Aprobado Jefe" : status === 3 ? "Aprobado Financiero" : status === 4 ? "Denegado" : "Pendiente"}
           </motion.p>
         </div>
 

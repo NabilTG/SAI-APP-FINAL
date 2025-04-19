@@ -7,6 +7,7 @@ import { HiDotsHorizontal } from "react-icons/hi"
 import { MdTimer } from "react-icons/md"
 import { motion, AnimatePresence } from "framer-motion"
 import { IoCheckmarkCircleSharp, IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { PiProhibitInset } from "react-icons/pi";
 
 function RecentsRequestsList() {
   const { newRequests, getNewestRequests } = useRequests()
@@ -182,7 +183,21 @@ function RecentsRequestsList() {
                         >
                           <IoCheckmarkDoneCircleSharp size={20} className="text-red-500" />
                         </motion.div>
-                      ) : (
+                      ):
+                      req.status_id === 4 ? (
+                        <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          delay: 0.4,
+                        }}
+                      >
+                        <PiProhibitInset size={20} className="text-red-500" />
+                      </motion.div>
+                      )
+                      : (
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
