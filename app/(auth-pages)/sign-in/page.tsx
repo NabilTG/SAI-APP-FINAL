@@ -48,14 +48,6 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
               />
             </div>
 
-            <div className="flex items-center justify-between w-full text-sm">
-              <div className="flex items-center gap-2">
-                <Checkbox className="border-foreground" />
-                <p>Recordarme por 30 días</p>
-              </div>
-              <a className="underline cursor-pointer" href="/forgot-password">¿Olvidaste tu contraseña?</a>
-            </div>
-
             <Button
               className="w-full rounded-sm font-semibold text-lg tracking-wide"
               size="lg"
