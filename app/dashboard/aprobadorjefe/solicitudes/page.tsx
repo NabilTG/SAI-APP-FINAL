@@ -99,6 +99,7 @@ function SolicitudesAprobador() {
                         <AccordionItem key={req.id} title={req.product_name} subtitle={`₡ ${req.total_request}`}>
                             <div className="grid grid-cols-12 items-center">
                                 <div className="col-span-7 text-lg">
+                                    <p>Id de Solicitud: <span className='text-gray-400 text-sm'>{req.id}</span></p>
                                     <p>Fecha de Solicitud: <span className='text-gray-400 capitalize'>{formatDateEs(req.created_at)}</span></p>
                                     <p>Solicitante: <span className='text-red-500'>{req.user.full_name}</span></p>
                                     <p>Estado de la solicitud: <span className='text-gray-400'>{req.status_id === 1 && "Pendiente de Aprobación"}</span></p>

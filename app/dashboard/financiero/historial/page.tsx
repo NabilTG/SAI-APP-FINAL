@@ -24,6 +24,7 @@ function History() {
             }}
         >
             <TableHeader>
+                <TableColumn>ID</TableColumn>
                 <TableColumn>Proposito</TableColumn>
                 <TableColumn>Fecha</TableColumn>
                 <TableColumn>Monto</TableColumn>
@@ -34,6 +35,7 @@ function History() {
             <TableBody>
                 {requests && requests.map((req) => (
                     <TableRow key={req.id}>
+                        <TableCell>{req.id}</TableCell>
                         <TableCell>{req.product_name}</TableCell>
                         <TableCell>{formatDateEs(req.created_at)}</TableCell>
                         <TableCell>{req.total_request}</TableCell>

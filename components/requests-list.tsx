@@ -88,6 +88,7 @@ function RequestsList({allUrl} : {allUrl : string}) {
               {requests.slice(0,4).map((req, index) => (
                 <motion.div key={req.id} variants={itemVariants} custom={index} layout>
                   <RequestCard
+                  reqId = {req.id}
                     title={req.product_name}
                     date={formatDateEs(req.created_at)}
                     description={req.comment}

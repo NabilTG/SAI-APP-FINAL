@@ -3,6 +3,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 
 interface RequestCardProps {
+  reqId: number
   title: string
   date: string
   description: string
@@ -12,7 +13,7 @@ interface RequestCardProps {
   status: number;
 }
 
-function RequestCard({ title, date, description, status, url, animate = false, delay = 0 }: RequestCardProps) {
+function RequestCard({reqId, title, date, description, status, url, animate = false, delay = 0 }: RequestCardProps) {
   // If animate is true, use motion.div, otherwise use regular div
   const CardWrapper = animate ? motion.div : "div"
 
@@ -60,6 +61,7 @@ function RequestCard({ title, date, description, status, url, animate = false, d
             animate={animate ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.3, delay: delay + 0.2 }}
           >
+            <p className="text-sm text-gray-500 font-thin">Id de Solicitud: {reqId}</p>
             <h2 className="text-lg font-semibold text-foreground">{title}</h2>
             <p className="text-sm text-gray-500">{date}</p>
           </motion.div>
